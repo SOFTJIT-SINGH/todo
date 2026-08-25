@@ -11,7 +11,7 @@ const todoschema = new Schema ({
     required : [true, "desc is required"],
     type  : String,
     trim : true,
-    minlength : [3, "Minimum length for title is 3 char"]
+    minlength : [3, "Minimum length for desc is 3 char"]
   },
   completed : {
     type : Boolean,
