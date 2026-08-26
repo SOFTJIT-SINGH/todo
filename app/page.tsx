@@ -1,33 +1,16 @@
 import Image from 'next/image'
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 
-export default function Home() {
+export default async function Home() {
+  const res = await fetch("/api/todo")
+  const todos = await res.json
   return (
     <div className=' w-full max-w-sm'>
-      <Card>
-        <CardHeader>
-          <CardTitle>login</CardTitle>
-          <CardDescription>login yourself</CardDescription>
-          <CardAction>
-            <Button variant='link'>Sign Up</Button>
-          </CardAction>
-        </CardHeader>
-        <CardContent>
-          <p>Card Content</p>
-        </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
-      </Card>
+      <h1>Todo</h1>
+{todos.map((todo)=> (<div key={todo._id}>
+  <p>{todo.title}</p>
+  <p>{todo.desc}</p>
+</div>)
+}
     </div>
   )
 }
