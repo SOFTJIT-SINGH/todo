@@ -3,7 +3,7 @@ import { loginschema } from '@/lib/validations/user'
 import { NextResponse } from 'next/server'
 import bcrypt from 'bcrypt'
 import User from '@/lib/user.model'
-import { Message } from 'radix-ui/form'
+import { generatetoken } from '@/lib/auth';
 
 export async function POST(req: Request) {
   try {
@@ -45,8 +45,11 @@ export async function POST(req: Request) {
       )
     }
 
+    const token =  generatetoken(user._id.toString())
+
     return NextResponse.json({
         message : "User Got Login",
+        token,
         user : {
             id : user._id,
             username : user.username,

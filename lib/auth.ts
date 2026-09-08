@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 
 const JWT_SECRET = process.env.JWT_SECRET! 
 export async function generatetoken(userid  : string) {
-    const token = await jwt.sign(userid, JWT_SECRET, { expiresIn : "1d"})
+    const token = await jwt.sign({ userId: userid }, JWT_SECRET, { expiresIn : "1d"})
+    return token;
 }
 
 export async function verifytoken(token : string) {

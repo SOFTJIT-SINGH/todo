@@ -3,7 +3,7 @@ import { model, models, Schema } from "mongoose";
 const userschema = new Schema({
     username  : {
         type : String,
-        requied : true,
+        required : true,
         trim : true,
         unique : true,
         minlength : [3, "Atleast 3 characters"]
@@ -17,7 +17,7 @@ const userschema = new Schema({
     phone : {
         type : Number,
         minlength : [10, "Atleast 10 digits"],
-        trim : true,
+        // trim : true,
     },
     password : {
         type : String,

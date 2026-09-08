@@ -1,7 +1,7 @@
 
 
 import { connectdb } from '@/lib/mongodb'
-import Todo from '@/lib/todo.model'
+// import Todo from '@/lib/todo.model'
 import User from '@/lib/user.model'
 import { NextResponse } from 'next/server'
 
