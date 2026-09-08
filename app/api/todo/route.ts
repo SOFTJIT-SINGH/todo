@@ -1,5 +1,6 @@
 import { connectdb } from '@/lib/mongodb'
 import Todo from '@/lib/todo.model'
+import { todoshema } from '@/lib/validations/todo'
 import { NextResponse } from 'next/server'
 
 export async function GET() {
@@ -16,15 +17,25 @@ export async function GET() {
   )
 }
 
-export async function POST(request : Request) {
-    await connectdb();
-     const body = await request.json();
+export async function POST(request: Request) {
+  await connectdb()
+  const body = await request.json()
+  const res = todoshema.safeParse(body)
 
-     const todo = await Todo.create({
-        title : body.title,
-        desc : body.desc,
-     })
-     return NextResponse.json(todo,{
-        status : 201
-     });
+  if (!res.success){
+    return NextResponse.json({
+      message : "Invalid input",
+      detail : res.error,
+    },
+  {
+    status : 400,
+  })
+  }
+  const todo = await Todo.create({
+    title: res.data.title,
+    desc: res.data.desc,
+  })
+  return NextResponse.json(todo, {
+    status: 201,
+  })
 }

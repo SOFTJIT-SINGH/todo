@@ -1,30 +1,35 @@
-import { connectdb } from '@/lib/mongodb';
-import User from '@/lib/user.model';
-import mongoose from 'mongoose'
-import { NextResponse } from 'next/server';
+
+
+import { connectdb } from '@/lib/mongodb'
+import Todo from '@/lib/todo.model'
+import User from '@/lib/user.model'
+import { NextResponse } from 'next/server'
 
 export async function GET() {
-    await connectdb()
+  await connectdb()
+  const user = await User.find()
+  return NextResponse.json({
+    message: 'User Fetched',
+    data: user,
+  })
+}
 
-    const users = await User.find()
+// export async function POST (req : Request){
+//     await connectdb()
+//     const res = await req.json()
+
+//     // const res = 
     
-    return NextResponse.json({
-        message : "users fetched",
-        users
-    })
-}
+//     const user = await User.create({
+//         username : res.username,
+//         password : res.password,
+//         phone : res.phone,
+//     })
 
-export async function POST(req : Request){
-    await connectdb()
-
-    const body = await req.json()
-
-    const user = await User.create({
-        username : body.username,
-        password : body.password
-    })
-
-    return NextResponse.json(user,{
-        status  : 201
-    })
-}
+//     return NextResponse.json({
+//         message : "User created",
+//         data : user,
+//     },{
+//         status : 201
+//     })
+// }

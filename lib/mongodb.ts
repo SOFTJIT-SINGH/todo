@@ -6,7 +6,7 @@ export async function connectdb(){
         return
     }
 
-    if (mongoose.connection.readyState ===1 ){
+    if (mongoose.connection.readyState >=1 ){
         console.log("already connected")
         return
     }

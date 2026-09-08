@@ -1,8 +1,9 @@
 import { connectdb } from "@/lib/mongodb";
 import Todo from "@/lib/todo.model";
+import { updatetodoschema } from "@/lib/validations/todo";
 import { NextResponse } from "next/server";
 
-export async function GET(req : Request, {params} : {params : {slug : string}}) {
+export async function GET(req : Request, {params} : {params : Promise<{slug : string}>}) {
     await connectdb();
      const {slug} = await params;
      const todo  = await Todo.findById(slug)
@@ -15,12 +16,18 @@ export async function GET(req : Request, {params} : {params : {slug : string}}) 
         data : todo
      })
 }
-export async function PUT (req : Request, {params} : {params : {slug : string}}){
+export async function PUT (req : Request, {params} : {params : Promise<{slug : string}>}){
 
     await connectdb()
     const {slug} = await params;
 
     const body = await req.json()
+    const res = updatetodoschema.safeParse(body)
+    if (!res.success){
+        return NextResponse.json({
+            
+        })
+    }
     const update = await Todo.findByIdAndUpdate(slug, body, { new : true, runValidators : true})
 
     if (!update){
@@ -30,7 +37,7 @@ export async function PUT (req : Request, {params} : {params : {slug : string}})
 
 }
 
-export async function PATCH (req : Request, {params} : {params : {slug : string}}){
+export async function PATCH (req : Request, {params} : {params : Promise<{slug : string}>}){
 
     await connectdb()
     const {slug} = await params;
@@ -48,7 +55,7 @@ export async function PATCH (req : Request, {params} : {params : {slug : string}
 
 
 export async function DELETE (req : Request, 
-    {params} : {params : {slug : string}}
+    {params} : {params : Promise<{slug : string}>}
 ) {
     await connectdb();
 
